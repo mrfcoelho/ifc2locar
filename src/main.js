@@ -8,25 +8,25 @@ import * as WEBIFC from "web-ifc";
 
 //
 
-document.querySelector("#app").innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`;
+// document.querySelector("#app").innerHTML = `
+//   <div>
+//     <a href="https://vite.dev" target="_blank">
+//       <img src="${viteLogo}" class="logo" alt="Vite logo" />
+//     </a>
+//     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
+//       <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
+//     </a>
+//     <h1>Hello Vite!</h1>
+//     <div class="card">
+//       <button id="counter" type="button"></button>
+//     </div>
+//     <p class="read-the-docs">
+//       Click on the Vite logo to learn more
+//     </p>
+//   </div>
+// `;
 
-setupCounter(document.querySelector("#counter"));
+// setupCounter(document.querySelector("#counter"));
 
 // hello world
 const scene = new THREE.Scene();
@@ -54,8 +54,8 @@ const cube = new THREE.Mesh(
 const locar = new LocAR.LocationBased(scene, camera);
 const cam = new LocAR.WebcamRenderer(renderer);
 
-locar.fakeGps(-0.72, 51.05);
-locar.add(cube, -0.72, 51.0501);
+locar.fakeGps(41.546602, -8.405604);
+locar.add(cube, 41.546602, -8.405604);
 
 renderer.setAnimationLoop(animate);
 
