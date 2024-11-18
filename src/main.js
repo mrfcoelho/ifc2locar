@@ -56,10 +56,13 @@ const locar = new LocAR.LocationBased(scene, camera);
 //responsible for rendering the camera feed
 const cam = new LocAR.WebcamRenderer(renderer);
 
-//to place ourselves (i.e. the camera) at a given real-world location
-locar.fakeGps(-8.40521, 41.546755);
+/**
+ * fakeGps(lon, lat, elev=null, acc=0) : fakes a GPS position being received. Elevation and accuracy can optionally be provided.
+ * to place ourselves (i.e. the camera) at a given real-world location
+ */
+locar.fakeGps(-8.40522, 41.546767);
 // add 3D model to a specific real-world location defined by longitude and latitude
-locar.add(cube, -8.40521, 41.546755);
+locar.add(cube, -8.40522, 41.546767);
 
 renderer.setAnimationLoop(animate);
 
