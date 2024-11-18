@@ -34,7 +34,7 @@ const camera = new THREE.PerspectiveCamera(
   60,
   window.innerWidth / window.innerHeight,
   0.001,
-  100
+  10000
 );
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -54,8 +54,8 @@ const cube = new THREE.Mesh(
 const locar = new LocAR.LocationBased(scene, camera);
 const cam = new LocAR.WebcamRenderer(renderer);
 
-locar.fakeGps(41.453391, -8.288396);
-locar.add(cube, 41.5467435, -8.288396);
+locar.fakeGps(41.54674, -8.40551);
+locar.add(cube, 41.54674, -8.40551);
 
 renderer.setAnimationLoop(animate);
 
