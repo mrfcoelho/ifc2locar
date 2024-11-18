@@ -51,11 +51,15 @@ const cube = new THREE.Mesh(
   new THREE.MeshBasicMaterial({ color: 0xff0000 })
 );
 
+//overall AR.js "manager" object
 const locar = new LocAR.LocationBased(scene, camera);
+//responsible for rendering the camera feed
 const cam = new LocAR.WebcamRenderer(renderer);
 
-locar.fakeGps(41.546755, -8.40521);
-locar.add(cube, 41.546755, -8.40521);
+//to place ourselves (i.e. the camera) at a given real-world location
+locar.fakeGps(-8.40521, 41.546755);
+// add 3D model to a specific real-world location defined by longitude and latitude
+locar.add(cube, -8.40521, 41.546755);
 
 renderer.setAnimationLoop(animate);
 
