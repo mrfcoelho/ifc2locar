@@ -54,7 +54,7 @@ const cube = new THREE.Mesh(
 const locar = new LocAR.LocationBased(scene, camera);
 const cam = new LocAR.WebcamRenderer(renderer);
 
-locar.fakeGps(41.546755, -8.405204);
+//locar.fakeGps(41.5467273, -8.4054044);
 locar.add(cube, 41.546755, -8.405204);
 
 renderer.setAnimationLoop(animate);
