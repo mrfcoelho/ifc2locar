@@ -45,7 +45,7 @@ window.addEventListener("resize", (e) => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 });
-const box = new THREE.BoxGeometry(2, 2, 2);
+const box = new THREE.BoxGeometry(20, 20, 20);
 const cube = new THREE.Mesh(
   box,
   new THREE.MeshBasicMaterial({ color: 0xff0000 })
@@ -58,11 +58,14 @@ const cam = new LocAR.WebcamRenderer(renderer);
 
 /**
  * fakeGps(lon, lat, elev=null, acc=0) : fakes a GPS position being received. Elevation and accuracy can optionally be provided.
- * to place ourselves (i.e. the camera) at a given real-world location
+ * To place ourselves (i.e. the camera) at a given real-world location.
+ * lon: longitude, distance to Greenwich
+ * lat: latitude, distance to equator
  */
-locar.fakeGps(-8.40522, 41.546767);
+//locar.fakeGps(-8.4053, 41.5466);
 // add 3D model to a specific real-world location defined by longitude and latitude
-locar.add(cube, -8.40522, 41.546767);
+//locar.add(cube, -8.4053, 41.546601);
+locar.add(cube, -8.410888279369487, 41.538707419973);
 
 renderer.setAnimationLoop(animate);
 
