@@ -28,7 +28,7 @@ import * as WEBIFC from "web-ifc";
 
 // setupCounter(document.querySelector("#counter"));
 
-// setuo the scene
+// setup the scene
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   60,
@@ -137,8 +137,9 @@ locar.startGps();
 
 renderer.setAnimationLoop(animate);
 
-// function that will update the came
+// function that will update the cam
 function animate() {
   cam.update();
+  deviceOrientationControls.update();
   renderer.render(scene, camera);
 }
