@@ -1,32 +1,7 @@
-import "./mian.css";
+import "./main.css";
 import * as LocAR from "locar";
 import * as THREE from "three";
-import * as BUI from "@thatopen/ui";
-import * as OBC from "@thatopen/components";
-import * as OBCF from "@thatopen/components-front";
-import * as WEBIFC from "web-ifc";
-
-//
-
-// document.querySelector("#app").innerHTML = `
-//   <div>
-//     <a href="https://vite.dev" target="_blank">
-//       <img src="${viteLogo}" class="logo" alt="Vite logo" />
-//     </a>
-//     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-//       <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-//     </a>
-//     <h1>Hello Vite!</h1>
-//     <div class="card">
-//       <button id="counter" type="button"></button>
-//     </div>
-//     <p class="read-the-docs">
-//       Click on the Vite logo to learn more
-//     </p>
-//   </div>
-// `;
-
-// setupCounter(document.querySelector("#counter"));
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 // setup the scene
 const scene = new THREE.Scene();
@@ -46,90 +21,90 @@ window.addEventListener("resize", (e) => {
   camera.updateProjectionMatrix();
 });
 
-// setup the models to be shown in the scene
-const box = new THREE.BoxGeometry(20, 20, 20);
-const cube = new THREE.Mesh(
-  box,
-  new THREE.MeshBasicMaterial({ color: 0xff0000 })
-);
-
 //overall AR.js "manager" object
 const locar = new LocAR.LocationBased(scene, camera);
 //responsible for rendering the camera feed
 const cam = new LocAR.WebcamRenderer(renderer);
 
-//--------------------- example with fake gps and cube ---------------------//
-/**
- * fakeGps(lon, lat, elev=null, acc=0) : fakes a GPS position being received. Elevation and accuracy can optionally be provided.
- * To place ourselves (i.e. the camera) at a given real-world location.
- * lon: longitude, distance to Greenwich
- * lat: latitude, distance to equator
- */
-//locar.fakeGps(-8.40, 41.457); //H
-//locar.fakeGps(-8.29, 41.45); //O
-// add 3D model to a specific real-world location defined by longitude and latitude
-//locar.add(cube, -8.40, 41.548); //H
-//locar.add(cube, -8.29, 41.451); //O
-
-//--------------------- example with fake gps and cube ---------------------//
-//--------------------- example with real gps and cube ---------------------//
-
 let firstLocation = true;
 
 const deviceOrientationControls = new LocAR.DeviceOrientationControls(camera);
 
-locar.on("gpsupdate", (pos, distMoved) => {
+// Models
+const models = {
+  m12: {
+    uri: "12_escolaCiencias.glb",
+    latitude: 41.45312023533569,
+    longitude: -8.288810318146739,
+    orientation: 45,
+    descritpion: " <p>Testing description</p>",
+  },
+  m14: {
+    uri: "14_ccg.glb",
+    latitude: 41.4534311145121,
+    longitude: -8.288169382564208,
+    orientation: -90,
+    descritpion: "Testing description",
+  },
+};
+// console.log("aqui");
+
+// Instantiate the GLTFLoader
+const loader = new GLTFLoader();
+
+locar.on("gpsupdate", async (pos, distMoved) => {
   if (firstLocation) {
     alert(
       `Got the initial location: longitude ${pos.coords.longitude}, latitude ${pos.coords.latitude}`
     );
 
-    const boxProps = [
-      {
-        latDis: 0.001,
-        lonDis: 0,
-        colour: 0xff0000,
-      },
-      {
-        latDis: -0.001,
-        lonDis: 0,
-        colour: 0xffff00,
-      },
-      {
-        latDis: 0,
-        lonDis: -0.001,
-        colour: 0x00ffff,
-      },
-      {
-        latDis: 0,
-        lonDis: 0.001,
-        colour: 0x00ff00,
-      },
-    ];
+    // console.log("aqui dentro");
 
-    const geom = new THREE.BoxGeometry(20, 20, 20);
+    // add all models
+    for (const key in models) {
+      // load the model
+      let model;
+      let modelLoader = await new GLTFLoader(model)
+        .loadAsync(models[key].uri)
+        .then(function (gltfModel) {
+          // console.log("tudo", gltfModel);
+          model = gltfModel.scene.children;
+          // console.log("testing", model);
+        });
 
-    for (const boxProp of boxProps) {
-      const mesh = new THREE.Mesh(
-        geom,
-        new THREE.MeshBasicMaterial({ color: boxProp.colour })
-      );
+      // console.log("outside", model);
 
-      console.log(
-        `adding at ${pos.coords.longitude + boxProp.lonDis},${
-          pos.coords.latitude + boxProp.latDis
-        }`
-      );
-      locar.add(
-        mesh,
-        pos.coords.longitude + boxProp.lonDis,
-        pos.coords.latitude + boxProp.latDis
-      );
+      model.forEach((child) => {
+        if (child.isMesh) {
+          // console.log(child);
+          locar.add(child, models[key].longitude, models[key].latitude);
+        }
+      });
     }
+
+    // for (const boxProp of boxProps) {
+    //   const mesh = new THREE.Mesh(
+    //     geom,
+    //     new THREE.MeshBasicMaterial({ color: boxProp.colour })
+    //   );
+
+    //   console.log(
+    //     `adding at ${pos.coords.longitude + boxProp.lonDis},${
+    //       pos.coords.latitude + boxProp.latDis
+    //     }`
+    //   );
+    //   locar.add(
+    //     mesh,
+    //     pos.coords.longitude + boxProp.lonDis,
+    //     pos.coords.latitude + boxProp.latDis
+    //   );
+    // }
 
     firstLocation = false;
   }
 });
+
+// console.log("aqui fora");
 
 locar.startGps();
 
