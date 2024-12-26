@@ -1,4 +1,4 @@
-import "./style.css";
+import "./mian.css";
 import * as LocAR from "locar";
 import * as THREE from "three";
 import * as BUI from "@thatopen/ui";
