@@ -49,8 +49,44 @@ const models = {
 };
 // console.log("aqui");
 
+// locar.fakeGps(-8.288, 41.45);
+
+const box = new THREE.BoxGeometry(2, 2, 2);
+const cube = new THREE.Mesh(
+  box,
+  new THREE.MeshBasicMaterial({ color: 0xff0000 })
+);
+
+// locar.add(cube, -8.288, 41.4501);
+
 // Instantiate the GLTFLoader
-const loader = new GLTFLoader();
+// const loader = new GLTFLoader();
+
+// loader.load(models["m12"].uri, function (gltf) {
+//   console.log(gltf.scene);
+//   const model = gltf.scene;
+//   locar.add(model, models["m12"].longitude, models["m12"].latitude + 0.002);
+// });
+
+// // load the model
+// let model;
+// let modelLoader = await new GLTFLoader(model)
+//   .loadAsync(models["m12"].uri)
+//   .then(function (gltfModel) {
+//     // console.log("tudo", gltfModel);
+//     model = gltfModel.scene.children;
+//     // console.log("testing", model);
+//   });
+
+// // // console.log("outside", model);
+
+// model.forEach((child) => {
+//   if (child.isMesh) {
+//     // console.log(child);
+//     child.material.color.set("0xff0000");
+//     locar.add(child, models["m12"].longitude, models["m12"].latitude);
+//   }
+// });
 
 locar.on("gpsupdate", async (pos, distMoved) => {
   if (firstLocation) {
@@ -82,29 +118,11 @@ locar.on("gpsupdate", async (pos, distMoved) => {
       });
     }
 
-    // for (const boxProp of boxProps) {
-    //   const mesh = new THREE.Mesh(
-    //     geom,
-    //     new THREE.MeshBasicMaterial({ color: boxProp.colour })
-    //   );
-
-    //   console.log(
-    //     `adding at ${pos.coords.longitude + boxProp.lonDis},${
-    //       pos.coords.latitude + boxProp.latDis
-    //     }`
-    //   );
-    //   locar.add(
-    //     mesh,
-    //     pos.coords.longitude + boxProp.lonDis,
-    //     pos.coords.latitude + boxProp.latDis
-    //   );
-    // }
-
     firstLocation = false;
   }
 });
 
-// console.log("aqui fora");
+console.log("aqui fora");
 
 locar.startGps();
 
