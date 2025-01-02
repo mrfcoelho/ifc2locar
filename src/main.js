@@ -21,8 +21,6 @@ window.addEventListener("resize", (e) => {
   camera.updateProjectionMatrix();
 });
 
-// locar.fakeGps(-8.288810318146739, 41.45312023533569);
-
 //overall AR.js "manager" object
 const locar = new LocAR.LocationBased(scene, camera);
 //responsible for rendering the camera feed
@@ -34,23 +32,31 @@ const deviceOrientationControls = new LocAR.DeviceOrientationControls(camera);
 
 // Models
 const models = {
-  m12: {
-    uri: "12_escolaCiencias.glb",
-    latitude: 41.45312023533569,
-    longitude: -8.288810318146739,
-    altitude: 275,
-    orientation: 45,
-    descritpion: " <p>Testing description</p>",
-  },
+  // m12: {
+  //   uri: "12_escolaCiencias.glb",
+  //   latitude: 41.45312023533569,
+  //   longitude: -8.288810318146739,
+  //   altitude: 275,
+  //   orientation: 45,
+  //   descritpion: " <p>Testing description</p>",
+  // },
   m14: {
     uri: "14_ccg.glb",
     latitude: 41.4534311145121,
     longitude: -8.288169382564208,
-    altitude: 275,
-    orientation: -90,
+    altitude: 276,
+    orientation: 0,
     descritpion: "Testing description",
   },
 };
+
+// const box = new THREE.BoxGeometry(20, 20, 20);
+// const cube = new THREE.Mesh(
+//   box,
+//   new THREE.MeshBasicMaterial({ color: 0xff0000 })
+// );
+// locar.fakeGps(-8.288169382564208, 41.4534311145121, 100);
+// locar.add(cube, -8.288169382564208, 41.455, 20);
 
 locar.on("gpsupdate", async (pos, distMoved) => {
   if (firstLocation) {
