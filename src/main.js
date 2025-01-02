@@ -44,7 +44,7 @@ const models = {
     uri: "14_ccg.glb",
     latitude: 41.4534311145121,
     longitude: -8.288169382564208,
-    altitude: 280,
+    altitude: 278,
     orientation: 0,
     descritpion: "Testing description",
   },
@@ -78,12 +78,7 @@ locar.on("gpsupdate", async (pos, distMoved) => {
       model.forEach((child) => {
         // only add to the scene the child of type mesh
         if (child.isMesh) {
-          locar.add(
-            child,
-            models[key].longitude,
-            models[key].latitude,
-            models[key].altitude
-          );
+          locar.add(child, models[key].longitude, models[key].latitude);
         }
       });
     }
