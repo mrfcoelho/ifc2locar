@@ -21,6 +21,8 @@ window.addEventListener("resize", (e) => {
   camera.updateProjectionMatrix();
 });
 
+// locar.fakeGps(-8.288810318146739, 41.45312023533569);
+
 //overall AR.js "manager" object
 const locar = new LocAR.LocationBased(scene, camera);
 //responsible for rendering the camera feed
@@ -47,54 +49,12 @@ const models = {
     descritpion: "Testing description",
   },
 };
-// console.log("aqui");
-
-// locar.fakeGps(-8.288, 41.45);
-
-const box = new THREE.BoxGeometry(2, 2, 2);
-const cube = new THREE.Mesh(
-  box,
-  new THREE.MeshBasicMaterial({ color: 0xff0000 })
-);
-
-// locar.add(cube, -8.288, 41.4501);
-
-// Instantiate the GLTFLoader
-// const loader = new GLTFLoader();
-
-// loader.load(models["m12"].uri, function (gltf) {
-//   console.log(gltf.scene);
-//   const model = gltf.scene;
-//   locar.add(model, models["m12"].longitude, models["m12"].latitude + 0.002);
-// });
-
-// // load the model
-// let model;
-// let modelLoader = await new GLTFLoader(model)
-//   .loadAsync(models["m12"].uri)
-//   .then(function (gltfModel) {
-//     // console.log("tudo", gltfModel);
-//     model = gltfModel.scene.children;
-//     // console.log("testing", model);
-//   });
-
-// // // console.log("outside", model);
-
-// model.forEach((child) => {
-//   if (child.isMesh) {
-//     // console.log(child);
-//     child.material.color.set("0xff0000");
-//     locar.add(child, models["m12"].longitude, models["m12"].latitude);
-//   }
-// });
 
 locar.on("gpsupdate", async (pos, distMoved) => {
   if (firstLocation) {
     alert(
       `Got the initial location: longitude ${pos.coords.longitude}, latitude ${pos.coords.latitude}`
     );
-
-    // console.log("aqui dentro");
 
     // add all models
     for (const key in models) {
@@ -103,16 +63,13 @@ locar.on("gpsupdate", async (pos, distMoved) => {
       let modelLoader = await new GLTFLoader(model)
         .loadAsync(models[key].uri)
         .then(function (gltfModel) {
-          // console.log("tudo", gltfModel);
+          // get all children of current model
           model = gltfModel.scene.children;
-          // console.log("testing", model);
         });
 
-      // console.log("outside", model);
-
       model.forEach((child) => {
+        // only add to the scene the child of type mesh
         if (child.isMesh) {
-          // console.log(child);
           locar.add(child, models[key].longitude, models[key].latitude);
         }
       });
@@ -121,8 +78,6 @@ locar.on("gpsupdate", async (pos, distMoved) => {
     firstLocation = false;
   }
 });
-
-console.log("aqui fora");
 
 locar.startGps();
 
