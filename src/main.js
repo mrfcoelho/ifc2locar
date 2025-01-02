@@ -38,6 +38,7 @@ const models = {
     uri: "12_escolaCiencias.glb",
     latitude: 41.45312023533569,
     longitude: -8.288810318146739,
+    altitude: 275,
     orientation: 45,
     descritpion: " <p>Testing description</p>",
   },
@@ -45,6 +46,7 @@ const models = {
     uri: "14_ccg.glb",
     latitude: 41.4534311145121,
     longitude: -8.288169382564208,
+    altitude: 275,
     orientation: -90,
     descritpion: "Testing description",
   },
@@ -53,7 +55,7 @@ const models = {
 locar.on("gpsupdate", async (pos, distMoved) => {
   if (firstLocation) {
     alert(
-      `Got the initial location: longitude ${pos.coords.longitude}, latitude ${pos.coords.latitude}`
+      `Got the initial location: longitude ${pos.coords.longitude}, latitude ${pos.coords.latitude}. altitude ${pos.coords.altitude}`
     );
 
     // add all models
@@ -70,7 +72,12 @@ locar.on("gpsupdate", async (pos, distMoved) => {
       model.forEach((child) => {
         // only add to the scene the child of type mesh
         if (child.isMesh) {
-          locar.add(child, models[key].longitude, models[key].latitude);
+          locar.add(
+            child,
+            models[key].longitude,
+            models[key].latitude,
+            models[key].altitude
+          );
         }
       });
     }
