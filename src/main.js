@@ -44,7 +44,7 @@ const models = {
     uri: "14_ccg.glb",
     latitude: 41.4534311145121,
     longitude: -8.288169382564208,
-    altitude: 276,
+    altitude: 280,
     orientation: 0,
     descritpion: "Testing description",
   },
