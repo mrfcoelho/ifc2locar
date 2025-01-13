@@ -80,9 +80,10 @@ cube.rotateY((models["m14"].orientation * Math.PI) / 180);
 locar.on("gpsupdate", async (pos, distMoved) => {
   if (firstLocation) {
     alert(
-      `Got the initial location: longitude ${pos.coords.longitude}, latitude ${pos.coords.latitude}, altitude ${pos.coords.altitude}, heading ${pos.coords.heading}`,
-      pos
+      `Got the initial location: longitude ${pos.coords.longitude}, latitude ${pos.coords.latitude}, altitude ${pos.coords.altitude}, heading ${pos.coords.heading}`
     );
+
+    console.log(pos.coords);
 
     // add all models
     // for (const key in models) {
