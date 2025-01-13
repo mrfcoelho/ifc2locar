@@ -45,14 +45,14 @@ const models = {
     latitude: 41.4534311145121,
     longitude: -8.288169382564208,
     altitude: 278,
-    orientation: 0,
+    orientation: -125,
     descritpion: "Testing description",
   },
 };
 
 // locar.fakeGps(models["m14"].longitude, models["m14"].latitude);
 
-const box = new THREE.BoxGeometry(100, 20, 40);
+const box = new THREE.BoxGeometry(10, 2, 4);
 const cube = new THREE.Mesh(
   box,
   new THREE.MeshBasicMaterial({ color: 0xff0000 })
@@ -63,7 +63,7 @@ scene.add(axesHelper);
 
 //rotate to align
 // console.log(cube.rotation);
-cube.rotateY(Math.PI / 4);
+cube.rotateY((models["m14"].orientation * Math.PI) / 180);
 // cube.rotation.set(new THREE.Vector3(0, Math.PI / 2, 0));
 // console.log(cube.rotation);
 
