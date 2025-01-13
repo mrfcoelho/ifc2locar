@@ -50,6 +50,25 @@ const models = {
   },
 };
 
+// locar.fakeGps(models["m14"].longitude, models["m14"].latitude);
+
+const box = new THREE.BoxGeometry(100, 20, 40);
+const cube = new THREE.Mesh(
+  box,
+  new THREE.MeshBasicMaterial({ color: 0xff0000 })
+);
+
+var axesHelper = new THREE.AxesHelper(10);
+scene.add(axesHelper);
+
+//rotate to align
+// console.log(cube.rotation);
+cube.rotateY(Math.PI / 4);
+// cube.rotation.set(new THREE.Vector3(0, Math.PI / 2, 0));
+// console.log(cube.rotation);
+
+// locar.add(cube, models["m14"].longitude, models["m14"].latitude - 0.0001);
+
 // const box = new THREE.BoxGeometry(20, 20, 20);
 // const cube = new THREE.Mesh(
 //   box,
@@ -61,27 +80,34 @@ const models = {
 locar.on("gpsupdate", async (pos, distMoved) => {
   if (firstLocation) {
     alert(
-      `Got the initial location: longitude ${pos.coords.longitude}, latitude ${pos.coords.latitude}. altitude ${pos.coords.altitude}`
+      `Got the initial location: longitude ${pos.coords.longitude}, latitude ${pos.coords.latitude}, altitude ${pos.coords.altitude}, heading ${pos.coords.heading}`,
+      pos
     );
 
     // add all models
-    for (const key in models) {
-      // load the model
-      let model;
-      let modelLoader = await new GLTFLoader(model)
-        .loadAsync(models[key].uri)
-        .then(function (gltfModel) {
-          // get all children of current model
-          model = gltfModel.scene.children;
-        });
+    // for (const key in models) {
+    //   // load the model
+    //   let model;
+    //   let modelLoader = await new GLTFLoader(model)
+    //     .loadAsync(models[key].uri)
+    //     .then(function (gltfModel) {
+    //       // get all children of current model
+    //       gltfModel.scene.scale.set(1000, 1000, 1000);
+    //       gltfModel.scene.updateWorldMatrix(true);
+    //       model = gltfModel.scene.children;
+    //       console.log(model);
+    //     });
 
-      model.forEach((child) => {
-        // only add to the scene the child of type mesh
-        if (child.isMesh) {
-          locar.add(child, models[key].longitude, models[key].latitude);
-        }
-      });
-    }
+    //   model.forEach((child) => {
+    //     // only add to the scene the child of type mesh
+    //     if (child.isMesh) {
+    //       child.scale;
+    //       locar.add(child, models[key].longitude, models[key].latitude);
+    //     }
+    //   });
+    // }
+
+    locar.add(cube, models["m14"].longitude, models["m14"].latitude);
 
     firstLocation = false;
   }
@@ -97,5 +123,6 @@ renderer.setAnimationLoop(animate);
 function animate() {
   cam.update();
   deviceOrientationControls.update();
+  // cube.rotation.y += 0.02;
   renderer.render(scene, camera);
 }
